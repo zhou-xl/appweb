@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="appweb.com.app.dao.CarInAndOutInfoMapper">
+  <resultMap id="BaseResultMap" type="appweb.com.app.entity.CarInAndOutInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="vno" jdbcType="VARCHAR" property="vno" />
+    <result column="plate_color" jdbcType="VARCHAR" property="plateColor" />
+    <result column="area_id" jdbcType="VARCHAR" property="areaId" />
+    <result column="area_name" jdbcType="VARCHAR" property="areaName" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, vno, plate_color, area_id, area_name, type, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from car_inandout_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from car_inandout_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="appweb.com.app.entity.CarInAndOutInfo">
+    insert into car_inandout_info (id, vno, plate_color, 
+      area_id, area_name, type, 
+      create_time)
+    values (#{id,jdbcType=INTEGER}, #{vno,jdbcType=VARCHAR}, #{plateColor,jdbcType=VARCHAR}, 
+      #{areaId,jdbcType=VARCHAR}, #{areaName,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="appweb.com.app.entity.CarInAndOutInfo">
+    insert into car_inandout_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="vno != null">
+        vno,
+      </if>
+      <if test="plateColor != null">
+        plate_color,
+      </if>
+      <if test="areaId != null">
+        area_id,
+      </if>
+      <if test="areaName != null">
+        area_name,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="vno != null">
+        #{vno,jdbcType=VARCHAR},
+      </if>
+      <if test="plateColor != null">
+        #{plateColor,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null">
+        #{areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="areaName != null">
+        #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="appweb.com.app.entity.CarInAndOutInfo">
+    update car_inandout_info
+    <set>
+      <if test="vno != null">
+        vno = #{vno,jdbcType=VARCHAR},
+      </if>
+      <if test="plateColor != null">
+        plate_color = #{plateColor,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null">
+        area_id = #{areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="areaName != null">
+        area_name = #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="appweb.com.app.entity.CarInAndOutInfo">
+    update car_inandout_info
+    set vno = #{vno,jdbcType=VARCHAR},
+      plate_color = #{plateColor,jdbcType=VARCHAR},
+      area_id = #{areaId,jdbcType=VARCHAR},
+      area_name = #{areaName,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="getCarInAndOutInfoById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  
+  	select * from car_inandout_info where id = #{id}
+  	
+  </select>
+</mapper>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="appweb.com.app.dao.CarPositionInfoMapper">
+  <resultMap id="BaseResultMap" type="appweb.com.app.entity.CarPositionInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="vcln" jdbcType="VARCHAR" property="vcln" />
+    <result column="utc" jdbcType="VARCHAR" property="utc" />
+    <result column="lat" jdbcType="VARCHAR" property="lat" />
+    <result column="lon" jdbcType="VARCHAR" property="lon" />
+    <result column="adr" jdbcType="VARCHAR" property="adr" />
+    <result column="spd" jdbcType="VARCHAR" property="spd" />
+    <result column="drc" jdbcType="VARCHAR" property="drc" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="country" jdbcType="VARCHAR" property="country" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, vcln, utc, lat, lon, adr, spd, drc, province, city, country
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from car_position_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from car_position_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="appweb.com.app.entity.CarPositionInfo">
+    insert into car_position_info (id, vcln, utc, 
+      lat, lon, adr, spd, 
+      drc, province, city, 
+      country)
+    values (#{id,jdbcType=INTEGER}, #{vcln,jdbcType=VARCHAR}, #{utc,jdbcType=VARCHAR}, 
+      #{lat,jdbcType=VARCHAR}, #{lon,jdbcType=VARCHAR}, #{adr,jdbcType=VARCHAR}, #{spd,jdbcType=VARCHAR}, 
+      #{drc,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+      #{country,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="appweb.com.app.entity.CarPositionInfo">
+    insert into car_position_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="vcln != null">
+        vcln,
+      </if>
+      <if test="utc != null">
+        utc,
+      </if>
+      <if test="lat != null">
+        lat,
+      </if>
+      <if test="lon != null">
+        lon,
+      </if>
+      <if test="adr != null">
+        adr,
+      </if>
+      <if test="spd != null">
+        spd,
+      </if>
+      <if test="drc != null">
+        drc,
+      </if>
+      <if test="province != null">
+        province,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="country != null">
+        country,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="vcln != null">
+        #{vcln,jdbcType=VARCHAR},
+      </if>
+      <if test="utc != null">
+        #{utc,jdbcType=VARCHAR},
+      </if>
+      <if test="lat != null">
+        #{lat,jdbcType=VARCHAR},
+      </if>
+      <if test="lon != null">
+        #{lon,jdbcType=VARCHAR},
+      </if>
+      <if test="adr != null">
+        #{adr,jdbcType=VARCHAR},
+      </if>
+      <if test="spd != null">
+        #{spd,jdbcType=VARCHAR},
+      </if>
+      <if test="drc != null">
+        #{drc,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null">
+        #{country,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="appweb.com.app.entity.CarPositionInfo">
+    update car_position_info
+    <set>
+      <if test="vcln != null">
+        vcln = #{vcln,jdbcType=VARCHAR},
+      </if>
+      <if test="utc != null">
+        utc = #{utc,jdbcType=VARCHAR},
+      </if>
+      <if test="lat != null">
+        lat = #{lat,jdbcType=VARCHAR},
+      </if>
+      <if test="lon != null">
+        lon = #{lon,jdbcType=VARCHAR},
+      </if>
+      <if test="adr != null">
+        adr = #{adr,jdbcType=VARCHAR},
+      </if>
+      <if test="spd != null">
+        spd = #{spd,jdbcType=VARCHAR},
+      </if>
+      <if test="drc != null">
+        drc = #{drc,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null">
+        country = #{country,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="appweb.com.app.entity.CarPositionInfo">
+    update car_position_info
+    set vcln = #{vcln,jdbcType=VARCHAR},
+      utc = #{utc,jdbcType=VARCHAR},
+      lat = #{lat,jdbcType=VARCHAR},
+      lon = #{lon,jdbcType=VARCHAR},
+      adr = #{adr,jdbcType=VARCHAR},
+      spd = #{spd,jdbcType=VARCHAR},
+      drc = #{drc,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      country = #{country,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
