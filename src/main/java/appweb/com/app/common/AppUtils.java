@@ -1,11 +1,14 @@
 package appweb.com.app.common;
 
 
+import java.text.SimpleDateFormat;
+
 import com.alibaba.fastjson.JSON;
 import com.openapi.sdk.service.DataExchangeService;
 import com.openapi.sdk.service.TransCode;
 
 import appweb.com.app.entity.AreaInfo;
+import appweb.com.app.entity.CarPositionInfo;
 import appweb.com.app.entity.ReturnBean;
 
 public class AppUtils {
@@ -52,11 +55,12 @@ public class AppUtils {
 	 * 本接口提供指定车牌号的车辆最新位置查询。
 	 * 返回值示例：
 	 * {"result":{"adr":"安徽省安庆市怀宁县长琳塑业，向西方向，148米","drc":"225","lat":"18451089","lon":"70094469","spd":"73.0","utc":"1496826420000","province":"安徽省","city":"安庆市","country":"怀宁县"},"status":1001}
+	 * @param positionInfo 
 	 *  */
-	public static void vLastLocationV3() {
+	public static ReturnBean vLastLocationV3(CarPositionInfo positionInfo) {
 		try {
 			System.out.println("一、	车辆最新位置查询（车牌号）接口");
-			String p = "token="+token+"&vclN=陕YH0009&timeNearby=24";
+			String p = "token="+token+"&vclN="+ positionInfo.getVcln() +"&timeNearby=24";
 			System.out.println("参数:"+p);
 			p = TransCode.encode(p);//DES加密
 			String url = apiUrl+"/vLastLocationV3/" + p+"?client_id="+client_id;
@@ -68,8 +72,10 @@ public class AppUtils {
 			ReturnBean bean = JSON.parseObject(res, ReturnBean.class);
 			analysisStatus(bean);//解析接口返回状态
 			System.out.println("------------------------------------------------------");
+			return bean;
 		} catch (Exception e) {
 			System.out.println("e:" + e.getMessage());
+			return null;
 		}
 	}
 
@@ -851,5 +857,23 @@ public class AppUtils {
 		return msg;
 	}
 	
+	
+	//时间戳转时间
+	public static String toDate(String time) {
+		SimpleDateFormat format =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+		return format.format(Long.valueOf(time)); 
+	}
+	
+	//经纬度计算
+	public static String toLatOrLon(String str) {
+		str = Long.valueOf(str)/600000.0 + "";
+		
+		if (str.indexOf(".") > 0) {
+			if (str.length() - str.indexOf(".") > 7) {
+				str = str.substring(0 ,str.indexOf(".") + 7);
+			}
+		}
+		return str;
+	}
 	
 }

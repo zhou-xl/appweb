@@ -1,6 +1,7 @@
 package appweb.com.app.controller;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -16,8 +17,10 @@ import appweb.com.app.common.Constant;
 import appweb.com.app.common.AppUtils;
 import appweb.com.app.dao.AreaInfoMapper;
 import appweb.com.app.dao.CarInAndOutInfoMapper;
+import appweb.com.app.dao.CarPositionInfoMapper;
 import appweb.com.app.entity.AreaInfo;
 import appweb.com.app.entity.CarInAndOutInfo;
+import appweb.com.app.entity.CarPositionInfo;
 import appweb.com.app.entity.ReturnBean;
 
 @RequestMapping("/apis")
@@ -30,6 +33,8 @@ public class ApiController {
     private CarInAndOutInfoMapper carInAndOutInfoMapper;
 	@Resource
 	private AreaInfoMapper areaInfoMapper;
+	@Resource
+	private CarPositionInfoMapper carPositionInfoMapper;
 	
 	@ResponseBody
 	@RequestMapping("/test")
@@ -52,7 +57,7 @@ public class ApiController {
 	 */
 	@ResponseBody
 	@RequestMapping("/areamsg")
-	public String areamsg(CarInAndOutInfo receiveInfo ,String userFlag) {
+	public String areamsg(CarInAndOutInfo receiveInfo ,String userflag) {
 		
 		StringBuffer result = new StringBuffer();
 		result.append("{");
@@ -65,13 +70,15 @@ public class ApiController {
 		
 		int status = 1006;
 		try {
-			if (userFlag != null && userFlag.equals(Constant.apiUser)) {
+			if (userflag != null && userflag.equals(Constant.apiUser)) {
 				
 				status = 1001;
 				receiveInfo.setCreateTime(date);
 				AreaInfo areaInfo = areaInfoMapper.selectByAreaId(receiveInfo.getAreaId());
-				receiveInfo.setAreaName(areaInfo.getAreaName());
-				carInAndOutInfoMapper.insert(receiveInfo);
+				if (areaInfo != null) {
+					receiveInfo.setAreaName(areaInfo.getAreaName());
+					carInAndOutInfoMapper.insert(receiveInfo);
+				}
 			
 			}
 		} catch (Exception e) {
@@ -91,7 +98,7 @@ public class ApiController {
 	 * @return
 	 */
 	@SuppressWarnings({ "unchecked" })
-	@RequestMapping("/areaReg")
+	@RequestMapping(value = "/areaReg")
 	@ResponseBody
 	public String areaReg(AreaInfo area) {
 		
@@ -130,6 +137,33 @@ public class ApiController {
 		return AppUtils.analysisStatus(bean);
 	}
 	
+	/**
+	 * 车辆位置查询
+	 * @author zxl
+	 * @date 2017年12月21日 下午1:50:06
+	 * @param positionInfo
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/vLastLocationV3")
+	public Map<String, String> vLastLocationV3(CarPositionInfo positionInfo){
+		String vcln = positionInfo.getVcln();
+		Map<String, String> map = new HashMap<>();
+		map.put("success", "false");
+		ReturnBean bean = AppUtils.vLastLocationV3(positionInfo);
+		if (bean != null && bean.getStatus().equals(Constant.status_success)) {
+			positionInfo = JSON.parseObject(bean.getResult().toString() ,CarPositionInfo.class);
+			positionInfo.setLat(AppUtils.toLatOrLon(positionInfo.getLat()));
+			positionInfo.setLon(AppUtils.toLatOrLon(positionInfo.getLon()));
+			positionInfo.setUtc(AppUtils.toDate(positionInfo.getUtc()));
+			positionInfo.setVcln(vcln);
+			carPositionInfoMapper.insertSelective(positionInfo);
+			map.put("success", "true");
+			map.put("data", bean.getResult().toString());
+		}
+		map.put("msg", AppUtils.analysisStatus(bean));
+		return map;
+	}
 	
 	/**
 	 * 登陆
@@ -139,12 +173,16 @@ public class ApiController {
 	 */
 	@ResponseBody
 	@RequestMapping("/login")
-	public String login() {
-		
+	public Map<String, Object> login() {
+		Map<String, Object> map = new HashMap<>();
+		map.put("success", true);
 		ReturnBean bean = AppUtils.login();
 		if (bean.getStatus().equals(Constant.status_success)) {
 			Constant.token = (String) bean.getResult();
+			map.put("data", bean.getResult());
 		}
-		return AppUtils.analysisStatus(bean);
+		map.put("msg", AppUtils.analysisStatus(bean));
+		return map;
 	}
+	
 }
