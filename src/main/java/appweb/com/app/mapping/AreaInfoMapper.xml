@@ -33,6 +33,14 @@
     delete from area_info
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
+
+  <delete id="deleteByAreaId" parameterType="java.lang.String">
+    delete from area_info
+    where area_id = #{areaId,jdbcType=VARCHAR}
+  </delete>
+
+
   <insert id="insert" parameterType="appweb.com.app.entity.AreaInfo">
     insert into area_info (id, area_id, area_name, lon, 
       lat, radius, type,

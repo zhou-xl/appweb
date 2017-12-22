@@ -423,11 +423,13 @@ public class AppUtils {
 	 * 传入需要订阅的车牌号及自定义区域ID，将为自定义区域删除订阅的车牌号
 	 * 接口返回数据解码后样例：
 	{"result":"1","status":1001}
+	 * @param area 
+	 * @return 
 	 *  */
-	public static void vnoDel() {
+	public static ReturnBean vnoDel(AreaInfo area) {
 		try {
 			System.out.println("十二、	车辆驶入/驶出->删除车辆订阅接口");
-			String p = "token="+token+"&userflag="+apiUser+"&areaid=6430423095815068543&vnos=陕YH0009_2";
+			String p = "token="+token+"&userflag="+apiUser+"&areaid=" + area.getAreaId() + "&vnos=" + area.getVnos();
 			System.out.println("参数:"+p);
 			p = TransCode.encode(p);//DES加密
 			String url = apiUrl+"/vnoDel/" + p+"?client_id="+client_id;
@@ -439,8 +441,10 @@ public class AppUtils {
 			ReturnBean bean = JSON.parseObject(res, ReturnBean.class);
 			analysisStatus(bean);//解析接口返回状态
 			System.out.println("------------------------------------------------------");
+			return bean;
 		} catch (Exception e) {
 			System.out.println("e:" + e.getMessage());
+			return null;
 		}
 	}
 	

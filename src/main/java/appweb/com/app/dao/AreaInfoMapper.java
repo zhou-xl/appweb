@@ -16,4 +16,6 @@ public interface AreaInfoMapper {
     int updateByPrimaryKey(AreaInfo record);
 
 	public AreaInfo selectByAreaId(String areaId);
+
+	public void deleteByAreaId(String string);
 }

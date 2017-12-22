@@ -115,7 +115,7 @@ public class ApiController {
 	}
 
 	/**
-	 * 
+	 * 区域订阅 删除
 	 * @author zxl
 	 * @date 2017年12月21日 下午2:56:53
 	 * @param area
@@ -127,12 +127,38 @@ public class ApiController {
 	public String areaDel(AreaInfo area) {
 		
 		ReturnBean bean =  AppUtils.areaDel(area);
-		logger.info(JSON.toJSONString(bean));
 		if (bean.getStatus().equals(Constant.status_success)) {
 			Map<String, String> map = (Map<String, String>) bean.getResult();
 			if (map.get("state").equals("1")) {
-				area.setAreaId(map.get("areaid"));
-				areaInfoMapper.insert(area);
+				area = areaInfoMapper.selectByAreaId(area.getAreaId());
+				if (area.getVnos() != null && !area.getVnos().equals("")) {
+					vnoDel(area);
+				}
+				areaInfoMapper.deleteByAreaId(area.getAreaId());
+			}
+		}
+		return AppUtils.analysisStatus(bean);
+	}
+
+	
+	/**
+	 * 车辆订阅删除
+	 * @author zxl
+	 * @date 2017年12月22日 下午2:31:24
+	 * @param area
+	 * @return
+	 */
+	@SuppressWarnings({ "unchecked" })
+	@RequestMapping(value = "/areaReg")
+	@ResponseBody
+	public String vnoDel(AreaInfo area) {
+		
+		ReturnBean bean =  AppUtils.vnoDel(area);
+		if (bean.getStatus().equals(Constant.status_success)) {
+			Map<String, String> map = (Map<String, String>) bean.getResult();
+			if (map.get("state").equals("1")) {
+				area.setVnos("");
+				areaInfoMapper.updateByPrimaryKey(area);
 			}
 		}
 		return AppUtils.analysisStatus(bean);
