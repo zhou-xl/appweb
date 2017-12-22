@@ -448,11 +448,12 @@ public class AppUtils {
 	 * 传入需要订阅的车牌号及自定义区域ID，将为进出自定义区域指定需要通知的车牌号
 	 * 接口返回数据解码后样例：
 	{"result":"1","status":1001}
+	 * @param area 
 	 *  */
-	public static void areaDel() {
+	public static ReturnBean areaDel(AreaInfo area) {
 		try {
 			System.out.println("十二、	车辆驶入/驶出->删除自定义区域接口");
-			String p = "token="+token+"&userflag="+apiUser+"&areaid=6430423095815068543";
+			String p = "token="+token+"&userflag="+apiUser+"&areaid=" + area.getAreaId();
 			System.out.println("参数:"+p);
 			p = TransCode.encode(p);//DES加密
 			String url = apiUrl+"/areaDel/" + p+"?client_id="+client_id;
@@ -464,8 +465,10 @@ public class AppUtils {
 			ReturnBean bean = JSON.parseObject(res, ReturnBean.class);
 			analysisStatus(bean);//解析接口返回状态
 			System.out.println("------------------------------------------------------");
+			return bean;
 		} catch (Exception e) {
 			System.out.println("e:" + e.getMessage());
+			return null;
 		}
 	}
 	

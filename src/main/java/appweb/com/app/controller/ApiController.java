@@ -113,6 +113,30 @@ public class ApiController {
 		}
 		return AppUtils.analysisStatus(bean);
 	}
+
+	/**
+	 * 
+	 * @author zxl
+	 * @date 2017年12月21日 下午2:56:53
+	 * @param area
+	 * @return
+	 */
+	@SuppressWarnings({ "unchecked" })
+	@RequestMapping(value = "/areaReg")
+	@ResponseBody
+	public String areaDel(AreaInfo area) {
+		
+		ReturnBean bean =  AppUtils.areaDel(area);
+		logger.info(JSON.toJSONString(bean));
+		if (bean.getStatus().equals(Constant.status_success)) {
+			Map<String, String> map = (Map<String, String>) bean.getResult();
+			if (map.get("state").equals("1")) {
+				area.setAreaId(map.get("areaid"));
+				areaInfoMapper.insert(area);
+			}
+		}
+		return AppUtils.analysisStatus(bean);
+	}
 	
 	/**
 	 * 车辆驶入驶出 车辆订阅
@@ -164,6 +188,8 @@ public class ApiController {
 		map.put("msg", AppUtils.analysisStatus(bean));
 		return map;
 	}
+	
+	
 	
 	/**
 	 * 登陆

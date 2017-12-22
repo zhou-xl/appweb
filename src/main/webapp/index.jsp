@@ -25,7 +25,7 @@
 		车辆位置查询：
 		<form action="${ctx }/apis/vLastLocationV3">
 			车牌号：
-			<input type="text" name="vcln" />
+			<input type="text" name="vcln" placeholder="陕YH0009"/>
 			<input type="submit" value="提交" />
 		</form>
 	</div>
@@ -41,7 +41,7 @@
 				<tr>
 					<td>事件类型：</td>
 					<td>
-						<label><input type="radio" name="actionType" value="1" /> 进区域通知</label>
+						<label><input type="radio" name="actionType" value="1" checked="checked"/> 进区域通知</label>
 						<label><input type="radio" name="actionType" value="2" /> 出区域通知</label>
 					</td>
 				</tr>
@@ -51,9 +51,9 @@
 					<td>经度：</td>
 					<td><input type="text" name="lon" /></td>
 					<td>维度：</td>
-					<td><input type="text" name="lat" /></td>
+					<td><input type="text" name="lat" placeholder="" /></td>
 					<td>半径：</td>
-					<td><input type="text" name="radius" /></td>
+					<td><input type="text" name="radius" placeholder="半径（米）" /></td>
 				</tr>
 				<tr>
 					<td colspan="8">
@@ -71,7 +71,7 @@
 		车辆驶入驶出 车辆订阅
 		<form action="${ctx }/apis/vnoReg">
 			车牌号：
-			<input type="text" name="vnos" required="京A12345_1(1蓝色，2黄色)" />
+			<input type="text" name="vnos" placeholder="京A12345_1(1蓝色，2黄色)" />
 			区域ID：
 			<input type="text" name="areaId" />
 			<input type="submit" value="提交">
