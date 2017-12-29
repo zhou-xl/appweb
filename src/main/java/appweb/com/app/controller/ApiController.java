@@ -98,7 +98,7 @@ public class ApiController {
 	 * @return
 	 */
 	@SuppressWarnings({ "unchecked" })
-	@RequestMapping(value = "/areaReg")
+	@RequestMapping("/areaReg")
 	@ResponseBody
 	public String areaReg(AreaInfo area) {
 		
@@ -122,7 +122,7 @@ public class ApiController {
 	 * @return
 	 */
 	@SuppressWarnings({ "unchecked" })
-	@RequestMapping(value = "/areaReg")
+	@RequestMapping("/areaDel")
 	@ResponseBody
 	public String areaDel(AreaInfo area) {
 		
@@ -149,7 +149,7 @@ public class ApiController {
 	 * @return
 	 */
 	@SuppressWarnings({ "unchecked" })
-	@RequestMapping(value = "/areaReg")
+	@RequestMapping("/vnoDel")
 	@ResponseBody
 	public String vnoDel(AreaInfo area) {
 		
